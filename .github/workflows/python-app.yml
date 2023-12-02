@@ -33,6 +33,15 @@ jobs:
         virtualenvs-create: true
         virtualenvs-in-project: false
         virtualenv-parallel: true
-        
         run: poetry install --no-root
+        
+    - name: Poetry Lint1
+      run: poetry run task lint
+      
+    - name: Poetry Formatter1 
+      run: poetry run task formatter
+
+    - name: Poetry Security1
+      run: poetry run task security
+      
    

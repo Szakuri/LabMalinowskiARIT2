@@ -43,5 +43,5 @@ jobs:
         poetry run task lint
     - name: Poetry security1
       run:
-        poetry run tak security
+        poetry run task security
       

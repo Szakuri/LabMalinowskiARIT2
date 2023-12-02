@@ -35,6 +35,7 @@ jobs:
         key: ${{ runner.os }}-venv
 
   install-depedencies:
+    needs: build
     runs-on: ubuntu-latest
     concurrency:
       group: some-group-name

@@ -42,38 +42,48 @@ jobs:
         working-directory: ./example-app
     
     steps:
-    - uses: actions/checkout@v3    
+    - name: Checkout code
+      uses: actions/checkout@v3    
+    - name: Install Poetry for linting
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
     - name: Poetry Lint
       run: |
         poetry run task lint
         
   formatter:
-      needs: build
-      runs-on: ubuntu-latest
-      defaults: 
-        run:
-          working-directory: ./example-app
+    needs: build
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: ./example-app
 
-      steps:
-        - uses: actions/checkout@v3    
-        - name: Poetry Formatter
-          run: |
-            poetry run task formatter
-
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3    
+      - name: Install Poetry for formatting
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+      - name: Poetry Formatter
+        run: |
+          poetry run task formatter
 
   security:
-      needs: build
-      runs-on: ubuntu-latest
-      defaults: 
-        run:
-          working-directory: ./example-app
+    needs: build
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: ./example-app
 
-      steps:
-        - uses: actions/checkout@v3    
-        - name: Poetry Formatter
-          run: |
-            poetry run task security
-      
-    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3    
+      - name: Install Poetry for security
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+      - name: Poetry Security
+        run: |
+          poetry run task security
+
       
       

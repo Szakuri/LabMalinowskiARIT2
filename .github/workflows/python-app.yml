@@ -34,7 +34,9 @@ jobs:
 
     - name: Install Dependencies
       run: |
+        cd example-app
         poetry install --no-root
+        cd ..
 
   lint:
     runs-on: ubuntu-latest
@@ -55,9 +57,6 @@ jobs:
       run: |
         cd example-app
         poetry run task lint
-
-
-    
 
   
       

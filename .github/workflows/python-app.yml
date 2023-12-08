@@ -47,6 +47,9 @@ jobs:
     - name: Install Poetry for linting
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
+    - name: Install task commmand
+      run: |
+        pip install task
     - name: Poetry Lint
       run: |
         poetry run task lint
@@ -64,6 +67,9 @@ jobs:
       - name: Install Poetry for formatting
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
+      - name: Install task commmand
+        run: |
+          pip install task
       - name: Poetry Formatter
         run: |
           poetry run task formatter
@@ -81,6 +87,9 @@ jobs:
       - name: Install Poetry for security
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
+      - name: Install task commmand
+        run: |
+          pip install task
       - name: Poetry Security
         run: |
           poetry run task security

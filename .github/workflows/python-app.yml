@@ -11,6 +11,8 @@ permissions:
 
 jobs:
   build:
+    
+
     runs-on: ubuntu-latest
     concurrency:
       group: some-group-name
@@ -20,6 +22,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
     - name: Install Poetry Action
       uses: snok/install-poetry@v1.3.4
       with: 
@@ -27,6 +33,31 @@ jobs:
         virtualenvs-create: true
         virtualenvs-in-project: false
         virtualenv-parallel: true
+
+    - name: Install Depedenties
+      run: |
+        poetry install --no-root
+        
+    - name: Poetry Lint1
+      run: |
+        poetry run task lint
+      
+    - name: Poetry Formatter1 
+      run: |
+        poetry run task formatter
+    - name: Poetry Security1
+      run: |
+        poetry run task security
+
+  lint:
+
+    runs-on: ubuntu-latest
+    needs: build
+    defaults: 
+      run:
+        working-directory: ./example-app
+
+    steps:
     - name: Cache build venv
       id: cached-poetry-dependencies
       uses: actions/cache@v3
@@ -34,83 +65,12 @@ jobs:
         path: /home/runner/work/<path>/example-app/.venv
         key: ${{ runner.os }}-venv
 
-  lint:
-    needs: build
-    runs-on: ubuntu-latest
-    defaults: 
-      run:
-        working-directory: ./example-app
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3 
-    - name: Cache build venv
-      id: cached-poetry-dependencies
-      uses: actions/cache@v3
-      with:
-        path: /home/runner/work/<path>/example-app/.venv
-        key: ${{ runner.os }}-venv
-    - name: Install Poetry for linting
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-    - name: Install task commmand
-      run: |
-        pip install task
     - name: Poetry Lint
       run: |
         poetry run task lint
-        
-  formatter:
-    needs: build
-    runs-on: ubuntu-latest
-    defaults: 
-      run:
-        working-directory: ./example-app
+  
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3 
-      - name: Cache build venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: /home/runner/work/<path>/example-app/.venv
-          key: ${{ runner.os }}-venv
-      - name: Install Poetry for formatting
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-      - name: Install task commmand
-        run: |
-          pip install task
-      - name: Poetry Formatter
-        run: |
-          poetry run task formatter
+    
 
-  security:
-    needs: build
-    runs-on: ubuntu-latest
-    defaults: 
-      run:
-        working-directory: ./example-app
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3 
-      - name: Cache build venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: /home/runner/work/<path>/example-app/.venv
-          key: ${{ runner.os }}-venv
-      - name: Install Poetry for security
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-      - name: Install task commmand
-        run: |
-          pip install task
-      - name: Poetry Security
-        run: |
-          poetry run task security
-
-      
+  
       

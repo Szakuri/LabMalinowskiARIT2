@@ -43,7 +43,13 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3    
+      uses: actions/checkout@v3 
+    - name: Cache build venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/work/<path>/example-app/.venv
+        key: ${{ runner.os }}-venv
     - name: Install Poetry for linting
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
@@ -63,7 +69,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3    
+        uses: actions/checkout@v3 
+      - name: Cache build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/work/<path>/example-app/.venv
+          key: ${{ runner.os }}-venv
       - name: Install Poetry for formatting
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
@@ -83,7 +95,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3    
+        uses: actions/checkout@v3 
+      - name: Cache build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/work/<path>/example-app/.venv
+          key: ${{ runner.os }}-venv
       - name: Install Poetry for security
         run: |
           curl -sSL https://install.python-poetry.org | python3 -

@@ -61,7 +61,8 @@ jobs:
         with:
           path: |
             example-app/.venv
-          key: ${{ runner.os }}-venv
+            ~/.poetry
+          key: ${{ runner.os }}-venv-poetry
 
       - name: Where are you repo?
         run: |

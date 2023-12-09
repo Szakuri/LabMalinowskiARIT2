@@ -36,9 +36,10 @@ jobs:
         poetry install --no-root
     - name: Cache build venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v2
       with:
-        path: /home/runner/work/<path>/example-app/.venv
+        path: |
+          example-app/.venv
         key: ${{ runner.os }}-venv
 
   lint:
@@ -51,9 +52,10 @@ jobs:
     steps:
     - name: Cache build venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v2
       with:
-        path: /home/runner/work/<path>/example-app/.venv
+        path: |
+          example-app/.venv
         key: ${{ runner.os }}-venv
     - name: Poetry Lint
       run: |

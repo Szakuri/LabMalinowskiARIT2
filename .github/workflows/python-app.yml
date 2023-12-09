@@ -41,6 +41,9 @@ jobs:
         path: |
           example-app/.venv
         key: ${{ runner.os }}-venv
+    - name: Where are you repo?
+      run: |
+        ls -la
 
   lint:
     runs-on: ubuntu-latest

@@ -33,7 +33,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd example-app
-          poetry install --no-root
+          poetry install --no-root -v
 
       - name: Cache build venv
         id: cached-poetry-dependencies
@@ -75,6 +75,11 @@ jobs:
           pwd
           ls -la
 
+      - name: Check example-app contents
+        run: |
+          cd example-app
+          ls -la
+
       - name: Activate Virtual Environment
         run: source example-app/.venv/bin/activate
 
@@ -83,3 +88,4 @@ jobs:
 
       - name: Run Poetry Lint
         run: poetry run task lint
+

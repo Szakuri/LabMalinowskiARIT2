@@ -10,44 +10,27 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  setup-python:
     runs-on: ubuntu-latest
-    concurrency:
-      group: some-group-name
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Fetch all history for proper versioning
-
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
         with:
           python-version: "3.10"
+      
+  install-poetry:
+    needs: setup-python
+    runs-on: ubuntu-latest
 
+    steps:
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-      - name: Install Dependencies
-        run: |
-          cd example-app
-          poetry install --no-root
-      - name: Cache build venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            example-app/.venv
-          key: ${{ runner.os }}-venv
 
-      - name: Where are you repo?
-        run: |
-          pwd
-          ls -la
-  lint:
+  install-dependencies:
+    needs: install-poetry
     runs-on: ubuntu-latest
-    needs: build
 
     steps:
       - name: Checkout code
@@ -55,18 +38,43 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
 
+      - name: Install Dependencies
+        run: |
+          cd example-app
+          poetry install --no-root
+
+  cache-build-venv:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Cache build venv
-        id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: |
             example-app/.venv
           key: ${{ runner.os }}-venv
 
+  lint:
+    needs: [setup-python, install-poetry, install-dependencies, cache-build-venv]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch all history for proper versioning
+
       - name: Where are you repo?
         run: |
           pwd
           ls -la
+
+      - name: Install Task
+        run: |
+          cd example-app
+          poetry add task --dev
+
       - name: Poetry Lint
         run: |
           cd example-app

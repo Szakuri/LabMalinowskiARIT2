@@ -16,7 +16,7 @@ jobs:
       group: some-group-name
     defaults: 
       run:
-        working-directory: example-app
+        working-directory: ${{ github.workspace }}/example-app
 
     steps:
     - uses: actions/checkout@v3
@@ -39,7 +39,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          home/runner/work/<path>/example-app/.venv
+          ${{ github.workspace }}/example-app/.venv
         key: ${{ runner.os }}-venv
     - name: Where are you repo?
       run: |
@@ -49,15 +49,14 @@ jobs:
     needs: build
     defaults:
       run:
-        working-directory: example-app
-
+        working-directory: ${{ github.workspace }}/example-app
     steps:
     - name: Cache build venv
       id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
         path: |
-          home/runner/work/<path>/example-app/.venv
+          ${{ github.workspace }}/example-app/.venv
         key: ${{ runner.os }}-venv
     - name: Where are you repo?
       run: |

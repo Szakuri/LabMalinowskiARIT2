@@ -53,7 +53,6 @@ jobs:
 
     - name: Poetry Lint
       run: |
-        cd example-app
         poetry run task lint
 
   

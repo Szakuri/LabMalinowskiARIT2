@@ -75,7 +75,11 @@ jobs:
           pwd
           ls -la
 
-      - name: Poetry Lint
-        run: |
-          cd example-app
-          poetry run task lint
+      - name: Activate Virtual Environment
+        run: source example-app/.venv/bin/activate
+
+      - name: Install Task
+        run: poetry add task --dev
+
+      - name: Run Poetry Lint
+        run: poetry run task lint

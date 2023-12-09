@@ -29,15 +29,13 @@ jobs:
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-
       - name: Install Dependencies
         run: |
           cd example-app
-          poetry install --no-root -v
-
+          poetry install --no-root
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             example-app/.venv
@@ -47,7 +45,6 @@ jobs:
         run: |
           pwd
           ls -la
-
   lint:
     runs-on: ubuntu-latest
     needs: build
@@ -58,34 +55,16 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
 
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             example-app/.venv
           key: ${{ runner.os }}-venv
 
-      - name: Where are you repo?
-        run: |
-          pwd
-          ls -la
-
-      - name: Check example-app contents
+          
+      - name: Poetry Lint
         run: |
           cd example-app
-          ls -la
-
-      - name: Activate Virtual Environment
-        run: source example-app/.venv/bin/activate
-
-      - name: Install Task
-        run: poetry add task --dev
-
-      - name: Run Poetry Lint
-        run: poetry run task lint
-
+          poetry run task lint

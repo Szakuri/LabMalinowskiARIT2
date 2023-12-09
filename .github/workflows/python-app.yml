@@ -16,7 +16,7 @@ jobs:
       group: some-group-name
     defaults: 
       run:
-        working-directory: ./example-app
+        working-directory: example-app
 
     steps:
     - uses: actions/checkout@v3
@@ -36,7 +36,7 @@ jobs:
         poetry install --no-root
     - name: Cache build venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           example-app/.venv
@@ -49,12 +49,12 @@ jobs:
     needs: build
     defaults:
       run:
-        working-directory: ./example-app
+        working-directory: example-app
 
     steps:
     - name: Cache build venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           example-app/.venv

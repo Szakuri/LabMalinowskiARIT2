@@ -36,7 +36,7 @@ jobs:
         poetry install --no-root
     - name: Cache build venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           example-app/.venv
@@ -55,7 +55,7 @@ jobs:
     steps:
     - name: Cache build venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           example-app/.venv

@@ -58,7 +58,7 @@ jobs:
       uses: action/cache@v3
       with:
         path: |
-          /home/runner/.cache/pypoetry/virtualenvs
+          /home/runner/work/<path>/example-app/.venv
         key: ${{ runner.os }}-venv
     - name: Where are you repo?
       run: |

@@ -36,7 +36,7 @@ jobs:
           
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: |
             /home/runner/work/<path>/example-app/.venv
@@ -58,7 +58,7 @@ jobs:
 
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: |
             /home/runner/work/<path>/example-app/.venv

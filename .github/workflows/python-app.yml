@@ -55,14 +55,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
-
-      - name: Cache build venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            example-app/.venv
-          key: ${{ runner.os }}-venv
           
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
@@ -73,6 +65,16 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
 
+
+      - name: Cache build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.example-app/.venv
+          key: ${{ runner.os }}-venv
+
+          
       - name: Where are you repo?
         run: |
           pwd

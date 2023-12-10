@@ -44,26 +44,26 @@ jobs:
         run: |
           pwd
           ls -la
-
+          
   lint:
     runs-on: ubuntu-latest
     needs: build
-
+  
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
+  
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
         with:
           python-version: "3.10"
-
+  
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-
+  
       - name: Cache lint venv
         id: cached-lint-poetry-dependencies
         uses: actions/cache@v3
@@ -71,8 +71,8 @@ jobs:
           path: |
             example-app/.venv
             ~/.poetry
-          key: ${{ runner.os }}-venv
-
+          key: ${{ runner.os }}-venv-${{ github.job }}
+          
       - name: Where are you repo?
         run: |
           pwd
@@ -81,3 +81,5 @@ jobs:
         run: |
           cd example-app
           poetry run task lint
+  
+  

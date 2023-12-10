@@ -33,12 +33,13 @@ jobs:
         run: |
           cd example-app
           poetry install --no-root
+          
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
-            example-app/.venv
+            /home/runner/work/<path>/example-app/.venv
           key: ${{ runner.os }}-venv
 
       - name: Where are you repo?
@@ -57,11 +58,20 @@ jobs:
 
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
-            example-app/.venv
+            /home/runner/work/<path>/example-app/.venv
           key: ${{ runner.os }}-venv
+          
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
 
       - name: Where are you repo?
         run: |

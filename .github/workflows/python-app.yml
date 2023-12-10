@@ -36,10 +36,10 @@ jobs:
           
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
-            /home/runner/work/<path>/example-app/.venv
+            example-app/.venv
           key: ${{ runner.os }}-venv
 
       - name: Where are you repo?
@@ -58,10 +58,10 @@ jobs:
 
       - name: Cache build venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
-            /home/runner/work/<path>/example-app/.venv
+            /example-app/.venv
           key: ${{ runner.os }}-venv
           
       - name: Set up Python 3.10

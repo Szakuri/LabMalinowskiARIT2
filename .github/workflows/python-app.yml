@@ -31,7 +31,6 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
       - name: Install Dependencies
         run: |
-          cd example-app
           poetry install --no-root
           
       - name: Cache build venv

@@ -57,6 +57,7 @@ jobs:
           fetch-depth: 0  # Fetch all history for proper versioning
           
       - name: Restore build venv
+        id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: |
@@ -71,6 +72,11 @@ jobs:
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install Dependencies
+        run: |
+          cd example-app
+          poetry install --no-root
       
 
           

@@ -29,7 +29,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          snok/install-poetry@v1
+          curl -sSL https://install.python-poetry.org | python3 -
       - name: Install Dependencies
         run: |
           poetry install --no-root
@@ -65,7 +65,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          snok/install-poetry@v1
+          curl -sSL https://install.python-poetry.org | python3 -
 
       - name: Restore build venv
         id: cached-poetry-dependencies

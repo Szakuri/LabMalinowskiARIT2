@@ -13,14 +13,14 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    concurrency:
-      group: some-group-name
+    defaults:
+      run:
+        working-directory: ./example-app
+    
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch all history for proper versioning
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
@@ -29,10 +29,9 @@ jobs:
 
       - name: Install Poetry
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
+          snok/install-poetry@v1
       - name: Install Dependencies
         run: |
-          cd example-app
           poetry install --no-root
           
       - name: Cache build venv
@@ -40,7 +39,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            example-app/.venv
+            /home/runner/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-venv
 
       - name: Where are you repo?
@@ -49,22 +48,16 @@ jobs:
           ls -la
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./example-app
     needs: build
+
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch all history for proper versioning
-          
-      - name: Restore build venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.example-app/.venv
-          key: ${{ runner.os }}-venv
-          
+        
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
         with:
@@ -72,15 +65,19 @@ jobs:
 
       - name: Install Poetry
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-      - name: Install Dependencies
-        run: |
-          cd example-app
-          poetry install --no-root
+          snok/install-poetry@v1
+
+      - name: Restore build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            /home/runner/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-venv
           
+
       - name: Poetry Lint
         run: |
-          cd example-app
           poetry run task lint
   formatter:
     runs-on: ubuntu-latest

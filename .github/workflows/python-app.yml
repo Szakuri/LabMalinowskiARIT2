@@ -46,6 +46,11 @@ jobs:
         run: |
           pwd
           ls -la
+
+
+
+
+          
   lint:
     runs-on: ubuntu-latest
     defaults:
@@ -79,24 +84,23 @@ jobs:
       - name: Poetry Lint
         run: |
           poetry run task lint
+
+
+
+
+
+        
   formatter:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./example-app
     needs: build
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch all history for proper versioning
-          
-      - name: Restore build venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.example-app/.venv
-          key: ${{ runner.os }}-venv
-          
+        
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
         with:
@@ -105,34 +109,35 @@ jobs:
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-      - name: Install Dependencies
-        run: |
-          cd example-app
-          poetry install --no-root
+          
+      - name: Restore build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            /home/runner/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-venv
+          
           
       - name: Poetry Formatter
         run: |
-          cd example-app
           poetry run task formatter
+
+
+
+
 
   security:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./example-app
     needs: build
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch all history for proper versioning
-          
-      - name: Restore build venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.example-app/.venv
-          key: ${{ runner.os }}-venv
-          
+
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
         with:
@@ -141,14 +146,18 @@ jobs:
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-      - name: Install Dependencies
-        run: |
-          cd example-app
-          poetry install --no-root
           
+      - name: Restore build venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            /home/runner/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-venv
+          
+    
       - name: Poetry Security
         run: |
-          cd example-app
           poetry run task security
 
 
@@ -161,21 +170,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
         with:
-          fetch-depth: 0  # Fetch all history for proper versioning
+          python-version: "3.10"
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
           
       - name: Restore build venv
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
           path: |
-            ~/.example-app/.venv
+            /home/runner/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-venv
           
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.10"
+
+      - name: Poetry Test
+        run: |
+          poetry run task test
+        
 
           
       

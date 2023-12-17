@@ -12,7 +12,10 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy: 
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     defaults:
       run:
         working-directory: ./example-app
@@ -52,7 +55,10 @@ jobs:
 
           
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     defaults:
       run:
         working-directory: ./example-app
@@ -91,7 +97,10 @@ jobs:
 
         
   formatter:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     defaults:
       run:
         working-directory: ./example-app
@@ -128,7 +137,10 @@ jobs:
 
 
   security:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     defaults:
       run:
         working-directory: ./example-app
@@ -164,7 +176,10 @@ jobs:
 
 
   unittests:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     defaults: 
       run:
         working-directory: ./example-app
